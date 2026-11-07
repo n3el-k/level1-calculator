@@ -40,3 +40,17 @@ def test_evaluate_rejects_invalid_input():
 def test_evaluate_rejects_empty_input():
     with pytest.raises(CalculatorError):
         evaluate("   ")
+
+
+def test_evaluate_never_runs_input_as_code():
+    with pytest.raises(CalculatorError):
+        evaluate('__import__("os").getcwd()')
+
+
+def test_evaluate_divide_by_zero_gives_a_clear_error():
+    with pytest.raises(CalculatorError, match="divide by zero"):
+        evaluate("1 / 0")
+
+
+def test_evaluate_negative_numbers():
+    assert evaluate("-2 + 5") == 3
