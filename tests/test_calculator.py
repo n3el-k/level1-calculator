@@ -1,6 +1,6 @@
 import pytest
 
-from calculator import CalculatorError, add, divide, subtract
+from calculator import CalculatorError, add, divide, evaluate, subtract
 
 
 def test_add():
@@ -21,3 +21,22 @@ def test_divide():
 def test_divide_by_zero_gives_a_clear_error():
     with pytest.raises(CalculatorError, match="divide by zero"):
         divide(1, 0)
+
+
+def test_evaluate_follows_order_of_operations():
+    assert evaluate("2 + 3 * 4") == 14
+
+
+def test_evaluate_handles_brackets_and_decimals():
+    assert evaluate("(2 + 3) * 4") == 20
+    assert evaluate("1.5 * 2") == 3
+
+
+def test_evaluate_rejects_invalid_input():
+    with pytest.raises(CalculatorError):
+        evaluate("2 + + ")
+
+
+def test_evaluate_rejects_empty_input():
+    with pytest.raises(CalculatorError):
+        evaluate("   ")

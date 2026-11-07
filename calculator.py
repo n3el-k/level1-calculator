@@ -25,4 +25,10 @@ def divide(a: float, b: float) -> float:
 
 def evaluate(expression: str) -> float:
     """Work out a whole expression like '2 + 3 * 4'."""
-    raise CalculatorError("Not built yet (ticket 3).")
+    expression = expression.strip()
+    if not expression:
+        raise CalculatorError("Please type an expression.")
+    try:
+        return eval(expression)
+    except (SyntaxError, NameError):
+        raise CalculatorError(f"I can't work out '{expression}'.")
