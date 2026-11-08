@@ -54,3 +54,12 @@ def test_evaluate_divide_by_zero_gives_a_clear_error():
 
 def test_evaluate_negative_numbers():
     assert evaluate("-2 + 5") == 3
+
+
+def test_evaluate_rejects_very_long_input():
+    with pytest.raises(CalculatorError, match="too long"):
+        evaluate("1 + " * 1000 + "1")
+
+
+def test_evaluate_still_handles_a_long_sum():
+    assert evaluate("1+" * 99 + "1") == 100

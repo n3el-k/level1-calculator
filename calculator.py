@@ -25,6 +25,10 @@ def divide(a: float, b: float) -> float:
     return a / b
 
 
+# Long enough for any real sum. Each operator is worked out one step deeper, so a much
+# longer input could crash the calculator instead of giving a clear error.
+MAX_LENGTH = 200
+
 # Only these operators are allowed. Anything else in the input is rejected.
 OPERATORS = {ast.Add: add, ast.Sub: subtract, ast.Mult: multiply, ast.Div: divide}
 
@@ -38,6 +42,8 @@ def evaluate(expression: str) -> float:
     expression = expression.strip()
     if not expression:
         raise CalculatorError("Please type an expression.")
+    if len(expression) > MAX_LENGTH:
+        raise CalculatorError(f"That expression is too long. Keep it under {MAX_LENGTH} characters.")
     try:
         tree = ast.parse(expression, mode="eval")
     except SyntaxError:
