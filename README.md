@@ -16,4 +16,4 @@ python -m pytest
 
 1. Make `add()` and `subtract()` return the right answer. ✅
 2. Handle dividing by zero. ✅
-3. Evaluate a whole expression like `2 + 3 * 4`.
+3. Evaluate a whole expression like `2 + 3 * 4`. ✅

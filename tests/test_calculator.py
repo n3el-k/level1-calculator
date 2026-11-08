@@ -1,6 +1,6 @@
 import pytest
 
-from calculator import CalculatorError, add, divide, subtract
+from calculator import CalculatorError, add, divide, evaluate, subtract
 
 
 def test_add():
@@ -21,3 +21,45 @@ def test_divide():
 def test_divide_by_zero_gives_a_clear_error():
     with pytest.raises(CalculatorError, match="divide by zero"):
         divide(1, 0)
+
+
+def test_evaluate_follows_order_of_operations():
+    assert evaluate("2 + 3 * 4") == 14
+
+
+def test_evaluate_handles_brackets_and_decimals():
+    assert evaluate("(2 + 3) * 4") == 20
+    assert evaluate("1.5 * 2") == 3
+
+
+def test_evaluate_rejects_invalid_input():
+    with pytest.raises(CalculatorError):
+        evaluate("2 + + ")
+
+
+def test_evaluate_rejects_empty_input():
+    with pytest.raises(CalculatorError):
+        evaluate("   ")
+
+
+def test_evaluate_never_runs_input_as_code():
+    with pytest.raises(CalculatorError):
+        evaluate('__import__("os").getcwd()')
+
+
+def test_evaluate_divide_by_zero_gives_a_clear_error():
+    with pytest.raises(CalculatorError, match="divide by zero"):
+        evaluate("1 / 0")
+
+
+def test_evaluate_negative_numbers():
+    assert evaluate("-2 + 5") == 3
+
+
+def test_evaluate_rejects_very_long_input():
+    with pytest.raises(CalculatorError, match="too long"):
+        evaluate("1 + " * 1000 + "1")
+
+
+def test_evaluate_still_handles_a_long_sum():
+    assert evaluate("1+" * 99 + "1") == 100
